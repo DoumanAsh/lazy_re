@@ -19,7 +19,7 @@
 #include "lazy_re.h"
 
 /**
- * @brief Assert to check regex functions return values.
+ * @brief Assert to check regex functions input parameters.
  *
  * @param condition Assert condition.
  * @param msg Pointer to string with message.
@@ -125,7 +125,11 @@ RegexMatch* Regex_search(const char* pattern, const char* string, const int efla
 
     RegexMatch *result = Regex_compiledSearch(regex, string, eflags);
 
-    if (result) regexCache.string = string + buffMatch.innerGroups[0].rm_so;
+    if (result &&
+        buffMatch.innerGroups[0].rm_eo < strlen(string))
+    {
+        regexCache.string = string + buffMatch.innerGroups[0].rm_eo;
+    }
     else regexCache.string = 0;
 
     return result;
@@ -138,7 +142,11 @@ RegexMatch* Regex_searchNext() {
 
     RegexMatch *result = Regex_compiledSearch(&regexCache.regex, regexCache.string, regexCache.eflags);
 
-    if (result) regexCache.string += buffMatch.innerGroups[0].rm_so;
+    if (result &&
+        buffMatch.innerGroups[0].rm_eo < strlen(regexCache.string))
+    {
+        regexCache.string += buffMatch.innerGroups[0].rm_eo;
+    }
     else regexCache.string = 0;
 
     return result;

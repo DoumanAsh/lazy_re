@@ -104,13 +104,52 @@ static void search_match(void **state) {
     }
 }
 
+static void search_next_some(void **state) {
+    expect_any(__wrap_regfree, preg);
+    /* Setup some findings */
+    memset(dummyGroups, -1, sizeof(dummyGroups));
+    dummyGroups[0].rm_so = 1; /* whole sentence */
+    dummyGroups[0].rm_eo = 3; /* "__" */
+
+    expect_string(__wrap_regexec, string, STRING + 18);
+    will_return(__wrap_regexec, true);
+    will_return(__wrap_regexec, 0);
+
+    RegexMatch *result = Regex_searchNext();
+
+    assert_non_null(result);
+    assert_int_equal(dummyGroups[0].rm_so, result->innerGroups[0].rm_so);
+    assert_int_equal(dummyGroups[0].rm_eo, result->innerGroups[0].rm_eo);
+
+    assert_int_equal(strncmp(STRING + 18 + dummyGroups[0].rm_so,
+                             result->groups[0],
+                             dummyGroups[0].rm_eo - dummyGroups[0].rm_so
+                    ), 0);
+
+    for (size_t idx = 1; idx < REGEX_MAX_GROUP; idx++) {
+        assert_null(result->groups[4]);
+        assert_int_equal(result->innerGroups[4].rm_so, -1);
+        assert_int_equal(result->innerGroups[4].rm_eo, -1);
+    }
+}
+
+static void search_next_none(void **state) {
+    memset(dummyGroups, -1, sizeof(dummyGroups));
+
+    RegexMatch *result = Regex_searchNext();
+    assert_null(result);
+}
+
 int main(void) {
     /* Suites ain't working on windows :( */
     run_test(test_true);
     run_test(test_false);
     run_test(free_check_arg);
     run_test(search_no_match);
+    /* match, next_some and  next_none should go each after each in that order. */
     run_test(search_match);
+    run_test(search_next_some);
+    run_test(search_next_none);
 
     return 0;
 }

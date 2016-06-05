@@ -1,0 +1,3 @@
+[submodule "cmocka"]
+    path = cmocka
+    url = git@github.com:clibs/cmocka.git

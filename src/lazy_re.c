@@ -29,7 +29,15 @@
 /**
  * @brief Static array used in return values of search.
  */
-static RegexMatch buffMatch = {0};
+static RegexMatch buffMatch = {
+    .innerGroups = {
+        {
+            .rm_so = -1,
+            .rm_eo = -1
+        }
+    },
+    .groups = {0}
+};
 
 /**
  * @brief Represents Regex cache.
@@ -43,7 +51,9 @@ typedef struct {
 /**
  * @brief Stores last created pattern.
  */
-static RegexCache regexCache = {0};
+static RegexCache regexCache = {
+    .string = 0
+};
 
 /**
  * @brief Free match.
@@ -98,7 +108,7 @@ RegexMatch* Regex_compiledSearch(regex_t* regex, const char* string, const int e
 
     /* Fill groups slices */
     for (size_t idx = 0; idx < REGEX_MAX_GROUP; idx++) {
-        if (buffMatch.innerGroups[idx].rm_so == (size_t)-1) {
+        if (buffMatch.innerGroups[idx].rm_so == (regoff_t)-1) {
             /* No more groups */
             break;
         }
@@ -121,12 +131,10 @@ RegexMatch* Regex_search(const char* pattern, const char* string, const int efla
 
     Regex_compile(regex, pattern, REG_EXTENDED);
 
-    Regex_cleanMatch(&buffMatch);
-
     RegexMatch *result = Regex_compiledSearch(regex, string, eflags);
 
     if (result &&
-        buffMatch.innerGroups[0].rm_eo < strlen(string))
+        buffMatch.innerGroups[0].rm_eo < (regoff_t)strlen(string))
     {
         regexCache.string = string + buffMatch.innerGroups[0].rm_eo;
     }
@@ -143,7 +151,7 @@ RegexMatch* Regex_searchNext() {
     RegexMatch *result = Regex_compiledSearch(&regexCache.regex, regexCache.string, regexCache.eflags);
 
     if (result &&
-        buffMatch.innerGroups[0].rm_eo < strlen(regexCache.string))
+        buffMatch.innerGroups[0].rm_eo < (regoff_t)strlen(regexCache.string))
     {
         regexCache.string += buffMatch.innerGroups[0].rm_eo;
     }

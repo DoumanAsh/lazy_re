@@ -2,7 +2,7 @@ project(lazy_re C)
 
 cmake_minimum_required(VERSION 2.6)
 
-SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Os -Wall")
+SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -Os -Wall -Wextra")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Os")
 

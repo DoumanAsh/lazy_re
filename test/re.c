@@ -8,9 +8,18 @@
 
 #define PATTERN "pattern"
 #define STRING "__ kawaii wa segi! __"
-static regmatch_t dummyGroups[REGEX_MAX_GROUP] = {{-1}};
+static regmatch_t dummyGroups[REGEX_MAX_GROUP] = {
+    {
+        .rm_so = -1,
+        .rm_eo = -1
+    }
+};
 
 int __wrap_regexec(const regex_t *restrict preg, const char *restrict string, size_t nmatch, regmatch_t pmatch[restrict], int eflags) {
+    assert_non_null(preg);
+    (void)eflags;
+    (void)nmatch;
+
     check_expected_ptr(string);
     bool is_to_find = mock_type(bool);
 
@@ -22,6 +31,9 @@ int __wrap_regexec(const regex_t *restrict preg, const char *restrict string, si
 }
 
 int __wrap_regcomp(regex_t* preg, const char* pattern, int cflags) {
+    assert_non_null(preg);
+    (void)cflags;
+
     check_expected_ptr(pattern);
     return mock_type(int);
 }
@@ -31,6 +43,7 @@ void __wrap_regfree(regex_t *preg) {
 }
 
 static void test_true(void **state) {
+    (void)state;
     expect_string(__wrap_regcomp, pattern, PATTERN);
     will_return(__wrap_regcomp, 0);
 
@@ -41,6 +54,7 @@ static void test_true(void **state) {
 }
 
 static void test_false(void **state) {
+    (void)state;
     expect_string(__wrap_regcomp, pattern, PATTERN);
     will_return(__wrap_regcomp, 0);
 
@@ -51,12 +65,14 @@ static void test_false(void **state) {
 }
 
 static void free_check_arg(void **state) {
+    (void)state;
     regex_t dummy;
     expect_memory(__wrap_regfree, preg, &dummy, sizeof(dummy));
     Regex_free(&dummy);
 }
 
 static void search_no_match(void **state) {
+    (void)state;
     expect_string(__wrap_regcomp, pattern, PATTERN);
     will_return(__wrap_regcomp, 0);
 
@@ -67,6 +83,7 @@ static void search_no_match(void **state) {
 }
 
 static void search_match(void **state) {
+    (void)state;
     expect_string(__wrap_regcomp, pattern, PATTERN);
     will_return(__wrap_regcomp, 0);
 
@@ -105,6 +122,7 @@ static void search_match(void **state) {
 }
 
 static void search_next_some(void **state) {
+    (void)state;
     expect_any(__wrap_regfree, preg);
     /* Setup some findings */
     memset(dummyGroups, -1, sizeof(dummyGroups));
@@ -134,6 +152,7 @@ static void search_next_some(void **state) {
 }
 
 static void search_next_none(void **state) {
+    (void)state;
     memset(dummyGroups, -1, sizeof(dummyGroups));
 
     RegexMatch *result = Regex_searchNext();

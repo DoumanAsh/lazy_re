@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lazy_20re',['lazy RE',['../md_README.html',1,'']]]
+  ['lazy_20re',['lazy RE',['../index.html',1,'']]]
 ];

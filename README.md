@@ -8,13 +8,16 @@ Wrapper over a posix regex for lazy people.
 Feel free to just copy code into your project or build library:
 
 ```
-make lazy_re
+.\build.sh
 ```
 
 ## Tests
 
-1. Build cmoka lib
-2. ```make re_test```
+Use build script to build and run tests
+
+```
+.\build.sh
+```
 
 ## Why such lame build system?
 

@@ -118,7 +118,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:adfc7aff5d455663dc10a18b9dbfa5d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles regex.  <a href="#adfc7aff5d455663dc10a18b9dbfa5d58">More...</a><br /></td></tr>
 <tr class="separator:adfc7aff5d455663dc10a18b9dbfa5d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6ef7c052ef006ac15016091a722ab8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lazy__re_8h.html#ad6ef7c052ef006ac15016091a722ab8a">Regex_free</a> (regex_t *regex)</td></tr>
-<tr class="memdesc:ad6ef7c052ef006ac15016091a722ab8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees regex.  <a href="#ad6ef7c052ef006ac15016091a722ab8a">More...</a><br /></td></tr>
+<tr class="memdesc:ad6ef7c052ef006ac15016091a722ab8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated for regex.  <a href="#ad6ef7c052ef006ac15016091a722ab8a">More...</a><br /></td></tr>
 <tr class="separator:ad6ef7c052ef006ac15016091a722ab8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92aa835e1f926e9bbf051024c8fbd256"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lazy__re_8h.html#a92aa835e1f926e9bbf051024c8fbd256">Regex_test</a> (const char *pattern, const char *string)</td></tr>
 <tr class="memdesc:a92aa835e1f926e9bbf051024c8fbd256"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether pattern presents in a string.  <a href="#a92aa835e1f926e9bbf051024c8fbd256">More...</a><br /></td></tr>
@@ -251,11 +251,10 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Frees regex. </p>
-<dl class="section note"><dt>Note</dt><dd>Should be called to re-use regex.</dd></dl>
+<p>Frees memory allocated for regex. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">regex</td><td>Pointer to a regex struct </td></tr>
+    <tr><td class="paramname">regex</td><td>Regex struct. </td></tr>
   </table>
   </dd>
 </dl>
@@ -352,7 +351,14 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">regex</td><td>Pattern which will be used to match. </td></tr>
-    <tr><td class="paramname">string</td><td>String against which to perform match. </td></tr>
+    <tr><td class="paramname">string</td><td>String against which to perform match.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">true</td><td>If pattern is found. </td></tr>
+    <tr><td class="paramname">false</td><td>otherwise. </td></tr>
   </table>
   </dd>
 </dl>

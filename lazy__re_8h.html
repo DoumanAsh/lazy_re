@@ -228,12 +228,13 @@ Functions</h2></td></tr>
 <p>Regex eflags reference <a href="http://www.gnu.org/software/libc/manual/html_node/Matching-POSIX-Regexps.html#Matching-POSIX-Regexps">http://www.gnu.org/software/libc/manual/html_node/Matching-POSIX-Regexps.html#Matching-POSIX-Regexps</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">regex</td><td>Pattern which will be used to match. </td></tr>
+    <tr><td class="paramname">regex</td><td>Regex which will be used to match. </td></tr>
     <tr><td class="paramname">string</td><td>String against which to perform match. </td></tr>
-    <tr><td class="paramname">eflags</td><td>Regex flags with which to match. </td></tr>
+    <tr><td class="paramname">eflags</td><td>Regex flags with which to match.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Match with groups if pattern is found. 0 Otherwise. </dd></dl>
 
 </div>
 </div>
@@ -297,10 +298,11 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">regex</td><td>Pattern which will be used to match. </td></tr>
     <tr><td class="paramname">string</td><td>String against which to perform match. </td></tr>
-    <tr><td class="paramname">eflags</td><td>Regex flags with which to match. </td></tr>
+    <tr><td class="paramname">eflags</td><td>Regex flags with which to match.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Match with groups if pattern is found. 0 Otherwise. </dd></dl>
 
 </div>
 </div>
@@ -318,8 +320,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Performs next search from cache of the last successful one. </p>
-<p>Returns 0 if nothing to search (e.g. Last search returned 0).</p>
-<dl class="section note"><dt>Note</dt><dd>Make sure to call <a class="el" href="lazy__re_8h.html#a607b72304f25c86fbe912e1b75904cf4">Regex_search</a> before calling this one. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Make sure to call <a class="el" href="lazy__re_8h.html#a607b72304f25c86fbe912e1b75904cf4">Regex_search</a> before calling this one.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Match with groups if pattern is found. 0 Otherwise. </dd></dl>
 
 </div>
 </div>

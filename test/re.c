@@ -73,6 +73,7 @@ static void free_check_arg(void **state) {
 
 static void search_no_match(void **state) {
     (void)state;
+    expect_any(__wrap_regfree, preg);
     expect_string(__wrap_regcomp, pattern, PATTERN);
     will_return(__wrap_regcomp, 0);
 
@@ -84,6 +85,7 @@ static void search_no_match(void **state) {
 
 static void search_match(void **state) {
     (void)state;
+    expect_any(__wrap_regfree, preg);
     expect_string(__wrap_regcomp, pattern, PATTERN);
     will_return(__wrap_regcomp, 0);
 
@@ -123,7 +125,6 @@ static void search_match(void **state) {
 
 static void search_next_some(void **state) {
     (void)state;
-    expect_any(__wrap_regfree, preg);
     /* Setup some findings */
     memset(dummyGroups, -1, sizeof(dummyGroups));
     dummyGroups[0].rm_so = 1; /* whole sentence */

@@ -16,7 +16,7 @@
  *
  * First group contains the whole match.
  *
- * @note Number of groups are limited to 10.
+ * @note Number of groups are limited to REGEX_MAX_GROUP.
  */
 typedef struct {
     regmatch_t innerGroups[REGEX_MAX_GROUP]; /**< Posix regex group array. */
@@ -34,11 +34,9 @@ typedef struct {
  */
 void Regex_compile(regex_t *regex, const char* pattern, const int cflags);
 /**
- * @brief Frees regex.
+ * @brief Frees memory allocated for regex.
  *
- * @note Should be called to re-use regex.
- *
- * @param regex Pointer to a regex struct
+ * @param regex Regex struct.
  */
 void Regex_free(regex_t* regex);
 
@@ -47,6 +45,9 @@ void Regex_free(regex_t* regex);
  *
  * @param regex Pattern which will be used to match.
  * @param string String against which to perform match.
+ *
+ * @retval true If pattern is found.
+ * @retval false otherwise.
  */
 bool Regex_test(const char* pattern, const char* string);
 /**
@@ -57,6 +58,8 @@ bool Regex_test(const char* pattern, const char* string);
  * @param regex Pattern which will be used to match.
  * @param string String against which to perform match.
  * @param eflags Regex flags with which to match.
+ *
+ * @return Match with groups if pattern is found. 0 Otherwise.
  */
 RegexMatch* Regex_search(const char* pattern, const char* string, const int eflags);
 
@@ -65,9 +68,11 @@ RegexMatch* Regex_search(const char* pattern, const char* string, const int efla
  *
  * Regex eflags reference http://www.gnu.org/software/libc/manual/html_node/Matching-POSIX-Regexps.html#Matching-POSIX-Regexps
  *
- * @param regex Pattern which will be used to match.
+ * @param regex Regex which will be used to match.
  * @param string String against which to perform match.
  * @param eflags Regex flags with which to match.
+ *
+ * @return Match with groups if pattern is found. 0 Otherwise.
  */
 
 RegexMatch* Regex_compiledSearch(regex_t* regex, const char* string, const int eflags);
@@ -75,8 +80,8 @@ RegexMatch* Regex_compiledSearch(regex_t* regex, const char* string, const int e
 /**
  * @brief Performs next search from cache of the last successful one.
  *
- * Returns 0 if nothing to search (e.g. Last search returned 0).
- *
  * @note Make sure to call @ref Regex_search before calling this one.
+ *
+ * @return Match with groups if pattern is found. 0 Otherwise.
  */
 RegexMatch* Regex_searchNext();

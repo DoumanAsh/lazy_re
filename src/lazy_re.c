@@ -129,6 +129,8 @@ RegexMatch* Regex_search(const char* pattern, const char* string, const int efla
     regex_t *regex = &regexCache.regex;
     regexCache.eflags = eflags;
 
+    Regex_free(regex);
+
     Regex_compile(regex, pattern, REG_EXTENDED);
 
     RegexMatch *result = Regex_compiledSearch(regex, string, eflags);
@@ -145,8 +147,6 @@ RegexMatch* Regex_search(const char* pattern, const char* string, const int efla
 
 RegexMatch* Regex_searchNext() {
     if (!regexCache.string) return 0;
-
-    Regex_free(&regexCache.regex);
 
     RegexMatch *result = Regex_compiledSearch(&regexCache.regex, regexCache.string, regexCache.eflags);
 

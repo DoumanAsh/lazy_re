@@ -1,7 +1,7 @@
 #!/bin/bash
 if [ -z "$1" ]; then
     echo "usage: build.sh <generator>"
-    return 0
+    exit 0
 else
     echo "Use generator $1"
     CMAKE_GENERATOR=$1
@@ -11,7 +11,7 @@ cd `dirname "$0"`
 
 git submodule update
 
-mkdir cmocka/build
+[ -d cmocka/build ] || mkdir cmocka/build
 cd cmocka/build
 
 echo ">>>Compile cmocka static lib"
@@ -24,7 +24,7 @@ cd -
 
 echo ">>>Compile lazy RE"
 
-mkdir build
+[ -d build ] || mkdir build
 
 cd build
 
